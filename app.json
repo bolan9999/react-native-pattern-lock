@@ -23,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.bolan9999.PatternLock"
     },
     "web": {
       "favicon": "./assets/favicon.png"
