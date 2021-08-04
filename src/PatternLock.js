@@ -2,7 +2,7 @@
  * @Author: 石破天惊
  * @email: shanshang130@gmail.com
  * @Date: 2021-08-02 10:13:06
- * @LastEditTime: 2021-08-04 10:42:29
+ * @LastEditTime: 2021-08-04 10:50:42
  * @LastEditors: 石破天惊
  * @Description:
  */
@@ -32,7 +32,6 @@ export function PatternLock(props) {
   const [isError, setIsError] = useState(false);
   const canTouch = useSharedValue(true);
   const patternPoints = useSharedValue();
-
   const selectedIndexes = useSharedValue([]);
   const endPoint = useSharedValue();
   const containerLayout = useSharedValue({ width: 0, height: 0, min: 0 });
@@ -51,9 +50,32 @@ export function PatternLock(props) {
     height: containerLayout.value.min,
   }));
   const msgX = useSharedValue(0);
+  const msgColor = { color: isError ? props.errorColor : props.activeColor };
   const msgStyle = useAnimatedStyle(() => {
     return { transform: [{ translateX: msgX.value }] };
   });
+  const onContainerLayout = ({
+    nativeEvent: {
+      layout: { x, y, width, height },
+    },
+  }) =>
+    (containerLayout.value = {
+      width,
+      height,
+      min: Math.min(width, height),
+    });
+  const onPatternLayout = ({ nativeEvent: { layout } }) => {
+    const points = [];
+    for (let i = 0; i < props.rowCount; i++) {
+      for (let j = 0; j < props.columnCount; j++) {
+        points.push({
+          x: layout.x + (layout.width / props.columnCount) * (j + 0.5),
+          y: layout.y + (layout.height / props.rowCount) * (i + 0.5),
+        });
+      }
+    }
+    patternPoints.value = points;
+  };
   const onEndJS = (res) => {
     if (props.onCheck) {
       canTouch.value = false;
@@ -136,7 +158,6 @@ export function PatternLock(props) {
         runOnJS(onEndJS)(selectedIndexes.value.join(""));
     },
   });
-
   const animatedProps = useAnimatedProps(() => {
     let d = "";
     selectedIndexes.value.forEach((idx) => {
@@ -150,50 +171,15 @@ export function PatternLock(props) {
 
   return (
     <PanGestureHandler onGestureEvent={panHandler}>
-      <Animated.View
-        style={styles.container}
-        onLayout={({
-          nativeEvent: {
-            layout: { x, y, width, height },
-          },
-        }) =>
-          (containerLayout.value = {
-            width,
-            height,
-            min: Math.min(width, height),
-          })
-        }
-      >
+      <Animated.View style={styles.container} onLayout={onContainerLayout}>
         <TapGestureHandler onGestureEvent={panHandler}>
           <Animated.View style={styles.container}>
             <View style={styles.msgc}>
-              <Animated.Text
-                style={[
-                  { color: isError ? props.errorColor : props.activeColor },
-                  msgStyle,
-                ]}
-              >
+              <Animated.Text style={[msgColor, msgStyle]}>
                 {props.message}
               </Animated.Text>
             </View>
-            <Animated.View
-              style={cvc}
-              onLayout={({ nativeEvent: { layout } }) => {
-                const points = [];
-                for (let i = 0; i < props.rowCount; i++) {
-                  for (let j = 0; j < props.columnCount; j++) {
-                    points.push({
-                      x:
-                        layout.x +
-                        (layout.width / props.columnCount) * (j + 0.5),
-                      y:
-                        layout.y + (layout.height / props.rowCount) * (i + 0.5),
-                    });
-                  }
-                }
-                patternPoints.value = points;
-              }}
-            >
+            <Animated.View style={cvc} onLayout={onPatternLayout}>
               {Array(props.rowCount)
                 .fill(0)
                 .map((_, ridx) => (
