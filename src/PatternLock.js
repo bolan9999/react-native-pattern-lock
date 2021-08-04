@@ -2,7 +2,7 @@
  * @Author: 石破天惊
  * @email: shanshang130@gmail.com
  * @Date: 2021-08-02 10:13:06
- * @LastEditTime: 2021-08-04 10:50:42
+ * @LastEditTime: 2021-08-04 11:12:54
  * @LastEditors: 石破天惊
  * @Description:
  */
@@ -40,6 +40,8 @@ export function PatternLock(props) {
       (containerLayout.value.min / props.rowCount - props.patternMargin * 2) / 2
   );
   const cvc = useAnimatedStyle(() => ({
+    flexDirection: "row",
+    flexWrap: "wrap",
     marginBottom: `${
       Math.max(
         0,
@@ -180,55 +182,44 @@ export function PatternLock(props) {
               </Animated.Text>
             </View>
             <Animated.View style={cvc} onLayout={onPatternLayout}>
-              {Array(props.rowCount)
+              {Array(props.rowCount * props.columnCount)
                 .fill(0)
-                .map((_, ridx) => (
-                  <View style={styles.chc} key={ridx}>
-                    {Array(props.columnCount)
-                      .fill(0)
-                      .map((_, cidx) => {
-                        const idx = ridx * props.rowCount + cidx;
-                        const fColor = isError
-                          ? props.errorColor
-                          : props.activeColor;
-                        const outer = useAnimatedStyle(() => {
-                          const selected =
-                            selectedIndexes.value.findIndex((v) => v === idx) <
-                            0;
-                          const borderColor = selected
-                            ? props.inactiveColor
-                            : fColor;
-                          return {
-                            flex: 1,
-                            margin: props.patternMargin,
-                            borderWidth: 2,
-                            borderColor: borderColor,
-                            borderRadius: 2 * R.value,
-                            justifyContent: "center",
-                            alignItems: "center",
-                          };
-                        });
-                        const inner = useAnimatedStyle(() => {
-                          const color =
-                            selectedIndexes.value.findIndex((v) => v === idx) <
-                            0
-                              ? "transparent"
-                              : fColor;
-                          return {
-                            width: R.value * 0.8,
-                            height: R.value * 0.8,
-                            borderRadius: R.value * 0.8,
-                            backgroundColor: color,
-                          };
-                        });
-                        return (
-                          <Animated.View key={cidx} style={outer}>
-                            <Animated.View style={inner} />
-                          </Animated.View>
-                        );
-                      })}
-                  </View>
-                ))}
+                .map((_, idx) => {
+                  const patternColor = useDerivedValue(() => {
+                    if (selectedIndexes.value.findIndex((v) => v === idx) < 0) {
+                      return props.inactiveColor;
+                    } else if (isError) {
+                      return props.errorColor;
+                    } else {
+                      return props.activeColor;
+                    }
+                  });
+                  const outer = useAnimatedStyle(() => {
+                    return {
+                      borderWidth: 2,
+                      width: 2 * R.value,
+                      height: 2 * R.value,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderColor: patternColor.value,
+                      borderRadius: 2 * R.value,
+                      margin: props.patternMargin,
+                    };
+                  });
+                  const inner = useAnimatedStyle(() => {
+                    return {
+                      width: R.value * 0.8,
+                      height: R.value * 0.8,
+                      borderRadius: R.value * 0.8,
+                      backgroundColor: patternColor.value,
+                    };
+                  });
+                  return (
+                    <Animated.View key={idx} style={outer}>
+                      <Animated.View style={inner} />
+                    </Animated.View>
+                  );
+                })}
             </Animated.View>
             <Svg style={styles.svg} width="100%" height="100%">
               <AnimatedPath
@@ -270,11 +261,5 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 0,
     top: 0,
-  },
-  chc: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "stretch",
   },
 });
