@@ -2,7 +2,7 @@
  * @Author: 石破天惊
  * @email: shanshang130@gmail.com
  * @Date: 2021-08-02 10:13:06
- * @LastEditTime: 2021-08-03 22:34:06
+ * @LastEditTime: 2021-08-04 10:42:29
  * @LastEditors: 石破天惊
  * @Description:
  */
@@ -20,6 +20,7 @@ import Animated, {
   useAnimatedGestureHandler,
   useAnimatedProps,
   useAnimatedStyle,
+  useDerivedValue,
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
@@ -31,14 +32,23 @@ export function PatternLock(props) {
   const [isError, setIsError] = useState(false);
   const canTouch = useSharedValue(true);
   const patternPoints = useSharedValue();
-  const R = useSharedValue(1000); //默认值1000解决web上borderRadius的问题
+
   const selectedIndexes = useSharedValue([]);
   const endPoint = useSharedValue();
-  const containerWidth = useSharedValue(0);
+  const containerLayout = useSharedValue({ width: 0, height: 0, min: 0 });
+  const R = useDerivedValue(
+    () =>
+      (containerLayout.value.min / props.rowCount - props.patternMargin * 2) / 2
+  );
   const cvc = useAnimatedStyle(() => ({
-    marginBottom: "30%",
-    width: containerWidth.value,
-    height: containerWidth.value,
+    marginBottom: `${
+      Math.max(
+        0,
+        containerLayout.value.height / containerLayout.value.width - 1.25
+      ) * 50
+    }%`,
+    width: containerLayout.value.min,
+    height: containerLayout.value.min,
   }));
   const msgX = useSharedValue(0);
   const msgStyle = useAnimatedStyle(() => {
@@ -146,7 +156,13 @@ export function PatternLock(props) {
           nativeEvent: {
             layout: { x, y, width, height },
           },
-        }) => (containerWidth.value = Math.min(width, height))}
+        }) =>
+          (containerLayout.value = {
+            width,
+            height,
+            min: Math.min(width, height),
+          })
+        }
       >
         <TapGestureHandler onGestureEvent={panHandler}>
           <Animated.View style={styles.container}>
@@ -185,53 +201,42 @@ export function PatternLock(props) {
                     {Array(props.columnCount)
                       .fill(0)
                       .map((_, cidx) => {
+                        const idx = ridx * props.rowCount + cidx;
+                        const fColor = isError
+                          ? props.errorColor
+                          : props.activeColor;
                         const outer = useAnimatedStyle(() => {
-                          const fColor = isError
-                            ? props.errorColor
-                            : props.activeColor;
                           const selected =
-                            selectedIndexes.value.findIndex(
-                              (v) => v === ridx * props.rowCount + cidx
-                            ) < 0;
+                            selectedIndexes.value.findIndex((v) => v === idx) <
+                            0;
                           const borderColor = selected
                             ? props.inactiveColor
                             : fColor;
                           return {
                             flex: 1,
-                            margin: 25,
+                            margin: props.patternMargin,
                             borderWidth: 2,
                             borderColor: borderColor,
                             borderRadius: 2 * R.value,
+                            justifyContent: "center",
+                            alignItems: "center",
                           };
                         });
                         const inner = useAnimatedStyle(() => {
-                          const fColor = isError
-                            ? props.errorColor
-                            : props.activeColor;
-                          const selected =
-                            selectedIndexes.value.findIndex(
-                              (v) => v === ridx * props.rowCount + cidx
-                            ) < 0;
-                          const innerColor = selected ? "transparent" : fColor;
+                          const color =
+                            selectedIndexes.value.findIndex((v) => v === idx) <
+                            0
+                              ? "transparent"
+                              : fColor;
                           return {
-                            flex: 1,
-                            margin: 20,
-                            borderRadius: R.value - 20,
-                            backgroundColor: innerColor,
+                            width: R.value * 0.8,
+                            height: R.value * 0.8,
+                            borderRadius: R.value * 0.8,
+                            backgroundColor: color,
                           };
                         });
                         return (
-                          <Animated.View
-                            key={cidx}
-                            style={outer}
-                            onLayout={({
-                              nativeEvent: {
-                                layout: { width, height },
-                              },
-                            }) => {
-                              if (width > 0) R.value = width / 2;
-                            }}
-                          >
+                          <Animated.View key={cidx} style={outer}>
                             <Animated.View style={inner} />
                           </Animated.View>
                         );
@@ -255,9 +260,10 @@ export function PatternLock(props) {
 }
 
 PatternLock.defaultProps = {
-  message: "Draw an unlock pattern",
+  message: "",
   rowCount: 3,
   columnCount: 3,
+  patternMargin: 25,
   inactiveColor: "#8E91A8",
   activeColor: "#5FA8FC",
   errorColor: "#D93609",
@@ -267,7 +273,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignSelf: "stretch",
-    alignItems: "stretch",
+    alignItems: "center",
   },
   msgc: {
     flex: 1,

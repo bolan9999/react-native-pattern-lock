@@ -2,7 +2,7 @@
  * @Author: 石破天惊
  * @email: shanshang130@gmail.com
  * @Date: 1985-10-26 16:15:00
- * @LastEditTime: 2021-08-03 23:56:11
+ * @LastEditTime: 2021-08-04 10:22:52
  * @LastEditors: 石破天惊
  * @Description:
  */
@@ -17,6 +17,7 @@ import {
   TouchableOpacity,
   Easing,
   SafeAreaView,
+  Platform,
 } from "react-native";
 import { PatternLock } from "./src";
 
@@ -47,7 +48,7 @@ export default function App() {
       }).start(),
   };
   const onSet = () => {
-    setCode();
+    setCode("");
     setStatus("setting");
     setMsg("Set pattern lock");
     modal.open();
@@ -91,10 +92,13 @@ export default function App() {
           <Button color="#007AFF" title="Cancel" onPress={modal.close} />
           <PatternLock
             message={msg}
+            onCheck={onCheck}
+            // rowCount={4}
+            // columnCount={4}
+            // patternMargin={15}
             inactiveColor="#8E91A8"
             activeColor="#5FA8FC"
             errorColor="#D93609"
-            onCheck={onCheck}
           />
         </SafeAreaView>
       </Animated.View>
@@ -124,8 +128,13 @@ const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: "rgb(41,43,56)",
   },
-  sfv: { flex: 1, alignItems: "flex-start", paddingTop: 64 },
+  sfv: {
+    flex: 1,
+    alignItems: "flex-start",
+    paddingTop: Platform.select({ android: 30, web:20 }),
+  },
   btnc: {
+    marginLeft: 16,
     fontSize: 18,
     color: "#007AFF",
   },
