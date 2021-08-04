@@ -1564,6 +1564,11 @@
     sudo-prompt "^9.0.0"
     wcwidth "^1.0.1"
 
+"@shanshang/react-native-pattern-lock@1.0.0-rc.2":
+  version "1.0.0-rc.2"
+  resolved "https://registry.yarnpkg.com/@shanshang/react-native-pattern-lock/-/react-native-pattern-lock-1.0.0-rc.2.tgz#f0800175dc7e17b55d3201250391a4ad8fab66df"
+  integrity sha512-vHtOaaDND8NOm0Cgmims4P29uLBWVYlVZw67OPsa+d8QHuzB8jlzpBBFq1fudNdbYL9m21cSj1iaioMoJR7U9w==
+
 "@types/hammerjs@^2.0.36":
   version "2.0.40"
   resolved "https://registry.yarnpkg.com/@types/hammerjs/-/hammerjs-2.0.40.tgz#ded0240b6ea1ad7afc1e60374c49087aaea5dbd8"

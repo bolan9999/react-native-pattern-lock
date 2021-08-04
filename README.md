@@ -2,7 +2,7 @@
  * @Author: 石破天惊
  * @email: shanshang130@gmail.com
  * @Date: 2021-08-04 00:34:29
- * @LastEditTime: 2021-08-04 13:10:11
+ * @LastEditTime: 2021-08-04 13:45:40
  * @LastEditors: 石破天惊
  * @Description: 
 -->
@@ -18,14 +18,14 @@ A smooth pattern lock component for react native.(iOS, android & web)
 
 RN 0.60+ with pod
 ```
-yarn add react-native-gesture-handler react-native-reanimated react-native-svg react-native-pattern-lock
+yarn add react-native-gesture-handler react-native-reanimated react-native-svg @shanshang/react-native-pattern-lock
 npx pod-install
 ```
 
 ## Documentation
 
 ```
-import {PatternLock} from "react-native-pattern-lock";
+import {PatternLock} from "@shanshang/react-native-pattern-lock";
 ```
 
 Props | Type | Default | Description

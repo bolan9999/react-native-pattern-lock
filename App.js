@@ -2,7 +2,7 @@
  * @Author: 石破天惊
  * @email: shanshang130@gmail.com
  * @Date: 1985-10-26 16:15:00
- * @LastEditTime: 2021-08-04 11:14:04
+ * @LastEditTime: 2021-08-04 16:24:31
  * @LastEditors: 石破天惊
  * @Description:
  */
@@ -19,7 +19,8 @@ import {
   SafeAreaView,
   Platform,
 } from "react-native";
-import { PatternLock } from "./src";
+// import { PatternLock } from "./src";
+import { PatternLock } from "@shanshang/react-native-pattern-lock";
 
 const screen = Dimensions.get("screen");
 const screenHeight = Math.max(screen.width, screen.height);

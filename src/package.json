@@ -1,6 +1,7 @@
 {
-  "name": "react-native-pattern-lock",
-  "version": "1.0.0-rc.1",
+  "name": "@shanshang/react-native-pattern-lock",
+  "version": "1.0.0-rc.2",
+  "private": false,
   "description": "A smooth pattern lock component for react native.(iOS, android & web)",
   "main": "index.js",
   "scripts": {
@@ -15,7 +16,8 @@
     "gesture",
     "password"
   ],
-  "author": "bolan9999 <shanshang130@gmail.com>",
+  "author": "shanshang <shanshang130@gmail.com>",
+  "homepage": "https://github.com/bolan9999/react-native-pattern-lock",
   "license": "MIT",
   "peerDependencies": {
     "react": "^16.13.1",
@@ -23,5 +25,8 @@
     "react-native-gesture-handler": "~1.10.2",
     "react-native-reanimated": "~2.2.0",
     "react-native-svg": "12.1.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0"
   }
 }
