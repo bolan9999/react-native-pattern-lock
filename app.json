@@ -28,6 +28,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "A smooth pattern lock component for react native.\n\n",
+    "githubUrl": "https://github.com/bolan9999/react-native-pattern-lock"
   }
 }
