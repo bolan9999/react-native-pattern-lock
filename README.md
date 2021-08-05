@@ -2,7 +2,7 @@
  * @Author: 石破天惊
  * @email: shanshang130@gmail.com
  * @Date: 2021-08-04 00:34:29
- * @LastEditTime: 2021-08-05 17:44:58
+ * @LastEditTime: 2021-08-05 19:41:06
  * @LastEditors: 石破天惊
  * @Description: 
 -->
@@ -42,13 +42,13 @@ onCheck | (res:string)=>boolean | undefined | Callback on end drawing, return `f
 ## Online Experience
 
 
-web: click [here](http://pl.bolan9999.com) or Scan the right QR code below on mobile brower.
+web: click [here](http://pl.bolan9999.com) or Scan the QR code below on mobile brower.
 
 ![Online Experience](./assets/web-experience.png)
 
-iOS : Download `expo go` app from App Store. Scan the left QR code below in Camera app, and then click Open with `expo go`.
+iOS : Download `expo go` app from App Store. Scan the QR code below in Camera app, and then click Open with `expo go`.
 
-android: Download `expo go` app from App Store. Scan the left QR code below in expo go app.
+android: Download `expo go` app from App Store. Scan the QR code below in expo go app.
 
 ![Online Experience](./assets/download-app.png) 
 

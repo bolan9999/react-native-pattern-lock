@@ -1,6 +1,6 @@
 {
   "name": "@shanshang/react-native-pattern-lock",
-  "version": "1.0.0-rc.2",
+  "version": "1.0.1-rc.1",
   "private": false,
   "description": "A smooth pattern lock component for react native.(iOS, android & web)",
   "main": "index.js",
