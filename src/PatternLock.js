@@ -1,13 +1,5 @@
-/*
- * @Author: 石破天惊
- * @email: shanshang130@gmail.com
- * @Date: 2021-08-02 10:13:06
- * @LastEditTime: 2021-08-04 12:10:44
- * @LastEditors: 石破天惊
- * @Description:
- */
 
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import {
   PanGestureHandler,
@@ -196,7 +188,7 @@ export function PatternLock(props) {
                   });
                   const outer = useAnimatedStyle(() => {
                     return {
-                      borderWidth: 2,
+                      backgroundColor: '#28EB28',
                       width: 2 * R.value,
                       height: 2 * R.value,
                       alignItems: "center",
@@ -208,15 +200,17 @@ export function PatternLock(props) {
                   });
                   const inner = useAnimatedStyle(() => {
                     return {
-                      width: R.value * 0.8,
+                      width: R.value * 0.9,
                       height: R.value * 0.8,
                       borderRadius: R.value * 0.8,
-                      backgroundColor: patternColor.value,
+                      backgroundColor: '#28EB28',
                     };
                   });
                   return (
                     <Animated.View key={idx} style={outer}>
-                      <Animated.View style={inner} />
+                      <Animated.View style={inner}>
+                        <Text style={styles.text}>{idx}</Text>
+                      </Animated.View>
                     </Animated.View>
                   );
                 })}
@@ -224,9 +218,9 @@ export function PatternLock(props) {
             <Svg style={styles.svg} width="100%" height="100%">
               <AnimatedPath
                 fill="none"
-                strokeWidth={3}
+                strokeWidth={8}
                 animatedProps={animatedProps}
-                stroke={isError ? props.errorColor : props.activeColor}
+                stroke={isError ? "#FFF92E" : "#FFFF"}
               />
             </Svg>
           </Animated.View>
@@ -242,7 +236,7 @@ PatternLock.defaultProps = {
   columnCount: 3,
   patternMargin: 25,
   inactiveColor: "#8E91A8",
-  activeColor: "#5FA8FC",
+  activeColor: "#7BFF77",
   errorColor: "#D93609",
 };
 
@@ -262,4 +256,11 @@ const styles = StyleSheet.create({
     left: 0,
     top: 0,
   },
+  text: {
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#ffff'
+}
 });
+Footer
